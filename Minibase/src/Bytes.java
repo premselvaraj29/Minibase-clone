@@ -74,5 +74,48 @@ public class Bytes {
         return x;
     }
 
+    public static byte[] slice(byte[] buf, int offset, int len) throws IOException {
+        if (buf == null) {
+            throw new IOException("Buffer is null");
+        }
+        if (offset < 0 || len < 0) {
+            throw new IOException("Invalid offset: " + offset + " or len: " + len);
+        }
 
+        if (offset + len > buf.length) {
+            throw new IOException("Buffer overflow, offset: " + offset + " , len: " + len + ", buf.length: " + buf.length);
+        }
+
+        byte[] result = new byte[len];
+        System.arraycopy(buf, offset, result, 0, len);
+        return result;
+    }
+
+    public static int hash(byte[] key) {
+        if (key == null) return 0;
+        int h = 1;
+        for (byte b : key) {
+            h = (h << 5) + h + b;
+        }
+        return h;
+    }
+
+    public static int compare(byte[] a, byte[] b) {
+        if (a == b) return 0;
+        if (a == null) return -1;
+        if (b == null) return 1;
+
+        if (a.length != b.length) {
+            return a.length - b.length;
+        }
+        
+        for (int i = 0, j = 0; i < a.length && j < b.length; i++, j++) {
+            int x = a[i] & 0xFF;
+            int y = b[i] & 0xFF;
+            if (x != y) {
+                return x - y;
+            }
+        }
+        return 0;
+    }
 }
