@@ -56,6 +56,6 @@ public class Config {
     public static Config getDefault() {
         return DEFAULT;
     }
-    
+
 
 }
